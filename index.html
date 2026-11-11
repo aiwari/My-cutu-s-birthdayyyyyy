@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#f7eee8">
+
+<title>A little something for Ayesha ♡</title>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap');
+
+:root{--ink:#463a36;--muted:#8d7770;--rose:#c58f8b;--cream:#fbf5f0;--line:#eadbd3;--gold:#d9b982}
+
+*{box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+
+body{margin:0;min-height:100vh;background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+
+button{font:inherit;cursor:pointer}
+
+.screen{display:none;min-height:100vh;padding:34px 20px;align-items:center;justify-content:center;position:relative;isolation:isolate}
+
+.screen.active{display:flex;animation:appear .8s ease both}
+
+@keyframes appear{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+.panel{width:min(760px,100%);text-align:center;padding:clamp(28px,6vw,62px);background:rgba(255,252,249,.82);border:1px solid rgba(221,194,181,.7);border-radius:28px;box-shadow:0 24px 70px rgba(95,65,55,.09);position:relative;z-index:2}
+
+.eyebrow{letter-spacing:.22em;text-transform:uppercase;font-size:.68rem;color:var(--muted);margin-bottom:18px}
+
+h1,h2{font-family:'Playfair Display',serif;font-weight:500;line-height:1.16;margin:0 0 20px}
+
+h1{font-size:clamp(2.3rem,7vw,4.7rem)}
+
+h2{font-size:clamp(1.9rem,5vw,3.2rem)}
+
+p{font-size:clamp(.98rem,2.3vw,1.12rem);line-height:1.85;color:#77645e;margin:0 auto 22px;max-width:620px}
+
+.script{font-family:'Playfair Display',serif;font-style:italic;color:#b77e7a}
+
+.btns{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:28px}
+
+.btn{border:1px solid var(--rose);background:var(--rose);color:white;border-radius:999px;padding:13px 25px;min-width:118px;transition:.25s;box-shadow:0 8px 20px #c58f8b30}
+
+.btn:hover{transform:translateY(-3px);box-shadow:0 12px 25px #c58f8b45}
+
+.btn.secondary{background:transparent;color:#a87571;box-shadow:none}
+
+.btn.soft{background:#f4e7e1;color:#89615d;border-color:#ead5cc}
+
+.stars{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:radial-gradient(ellipse at 50% 45%,#fffaf6 0%,#f7eee8 72%)}
+
+.star{position:absolute;width:3px;height:3px;border-radius:50%;background:#cba66c;box-shadow:0 0 8px 2px #e7c994;animation:twinkle var(--d) ease-in-out infinite alternate;opacity:.45}
+
+@keyframes twinkle{from{opacity:.12;transform:scale(.6)}to{opacity:1;transform:scale(1.7)}}
+
+.fade-line{animation:fadeText 5.2s ease both}
+
+@keyframes fadeText{0%,8%{opacity:0;transform:translateY(12px)}18%,78%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-10px)}}
+
+.long-note{max-width:650px}
+
+.progress{position:fixed;top:15px;left:50%;transform:translateX(-50%);font-size:.68rem;letter-spacing:.15em;color:#a48a80;z-index:5}
+
+.video-frame{width:100%;max-height:65vh;border-radius:18px;background:#f0e5df;object-fit:contain;display:block;margin:24px auto 0}
+
+.video-placeholder{padding:50px 15px;background:#f4e8e1;border-radius:18px;color:#96766d}
+
+.rating{width:min(520px,100%);margin:28px auto 8px;accent-color:#b77e7a}
+
+.rating-num{font-family:'Playfair Display',serif;font-size:3rem;color:#b77e7a}
+
+.reaction{min-height:34px;color:#9a716b;font-style:italic}
+
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:26px}
+
+.photo{aspect-ratio:3/4;border-radius:14px;overflow:hidden;background:#f0e4dc;border:1px solid #ead8cf}
+
+.photo img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+
+.photo:hover img{transform:scale(1.06)}
+
+.photo.missing{display:grid;place-items:center;padding:8px;color:#a78b80;font-size:.8rem}
+
+.celebrate{background:#1d1b24;color:#fff;transition:background 1s}
+
+.celebrate .panel{background:rgba(255,250,246,.96);color:var(--ink)}
+
+.celebrate.dark{background:#090912}
+
+.celebrate.dark .panel{background:rgba(22,20,31,.88);border-color:#403746;color:#fff}
+
+.celebrate.dark p,.celebrate.dark .eyebrow{color:#c7b8c4}
+
+.birthday-banner{display:none;margin:24px auto;padding:18px 10px;border-top:1px solid var(--gold);border-bottom:1px solid var(--gold);font-family:'Playfair Display',serif;font-size:clamp(1.7rem,5vw,3.4rem);color:#b77e7a}
+
+.celebrate.dark .birthday-banner{color:#f0c9ca}
+
+.cake-area{position:relative;width:min(390px,90%);height:250px;margin:22px auto 0;display:none;touch-action:none}
+
+.cake{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);width:220px;height:125px;background:linear-gradient(#f7d9d3 0 25%,#e9aeb0 25% 100%);border-radius:18px 18px 25px 25px;box-shadow:inset 0 -12px #d98f99,0 15px 28px #0002}
+
+.cake:before{content:"";position:absolute;top:-17px;left:0;width:100%;height:35px;background:#fff0e9;border-radius:50%;box-shadow:inset 0 -7px #e8b4b2}
+
+.cake:after{content:"♡  ♡  ♡";position:absolute;top:46px;left:0;width:100%;text-align:center;color:#fff8f0;font-size:24px;letter-spacing:12px}
+
+.candle{position:absolute;z-index:2;left:50%;top:-42px;transform:translateX(-50%);width:9px;height:31px;background:repeating-linear-gradient(45deg,#fff 0 5px,#d98f99 5px 9px);border-radius:3px}
+
+.flame{position:absolute;left:50%;top:-61px;transform:translateX(-50%);width:15px;height:22px;background:#ffc66e;border-radius:50% 50% 45% 45%;filter:drop-shadow(0 0 9px #ffb45c);animation:flicker .45s infinite alternate}
+
+@keyframes flicker{to{transform:translateX(-50%) scale(.8) rotate(5deg)}}
+
+.knife{position:absolute;right:12px;top:22px;font-size:42px;cursor:grab;touch-action:none;user-select:none;z-index:4;filter:drop-shadow(0 4px 3px #0002)}
+
+.knife:active{cursor:grabbing}
+
+.cake-cut{display:none;position:absolute;left:50%;bottom:24px;transform:translateX(-50%);width:220px;height:125px;border-radius:18px 18px 25px 25px;background:linear-gradient(90deg,#f7d9d3 0 47%,#c9828d 48% 51%,#e9aeb0 52%);z-index:3;pointer-events:none}
+
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:10;overflow:hidden}
+
+.confetti i{position:absolute;top:-20px;width:8px;height:13px;background:#d9b982;animation:fall 3.4s linear forwards}
+
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.2}}
+
+@media(max-width:600px){.gallery{grid-template-columns:repeat(2,1fr)}.panel{border-radius:22px}.screen{padding:25px 14px}.progress{top:9px}}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="progress" id="progress">A LITTLE SURPRISE · 01 / 09</div>
+
+<div class="confetti" id="confetti"></div>
+
+<section class="screen active" id="s1">
+
+<div class="panel">
+
+<div class="eyebrow">a little note for you</div>
+
+<h1 class="fade-line">it's my <span class="script">cutu's</span><br>special day ♡</h1>
+
+<p id="introNote" style="opacity:0">And to make it feel even more special for you, I have prepared a little something. Since you are not here, I wish I could have planned something even more special in person. I do have that planned for when you come. Abhi ke liye, this is all I can do — so I have tried my best to make today feel special for you.</p>
+
+<button class="btn" id="introNext" style="opacity:0" onclick="go(2)">A little something →</button>
+
+</div>
+
+</section>
+
+<section class="screen" id="s2">
+
+<div class="panel">
+
+<div class="eyebrow">just for you, Ayesha</div>
+
+<h2>Do you wanna see what I've prepared?</h2>
+
+<p>I've been waiting for you to get here. ♡</p>
+
+<div class="btns">
+
+<button class="btn" onclick="go(3)">Yes, show me!</button>
+
+<button class="btn secondary" onclick="go(3)">Obviously yes :)</button>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="screen" id="s3">
+
+<div class="panel">
+
+<div class="eyebrow">our little time capsule</div>
+
+<h2>I've made an edit of the moments we spent together — the ones that are special to both of us.</h2>
+
+<p class="script">Are you ready to live those moments again?</p>
+
+<div class="btns">
+
+<button class="btn" onclick="playEdit()">Yes, let's go ♡</button>
+
+<button class="btn secondary" onclick="playEdit()">I'm more than ready</button>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="screen" id="s4">
+
+<div class="panel">
+
+<div class="eyebrow">press play and relive</div>
+
+<h2>Us, in little moments ♡</h2>
+
+<video id="editVideo" class="video-frame" controls playsinline preload="metadata" style="display:none">
+
+<source src="our-edit.mp4" type="video/mp4">
+
+Your browser does not support this video.
+
+</video>
+
+<div id="videoFallback" class="video-placeholder">If the video takes a moment to load, give it a second, cutu ♡</div>
+
+<p>Take your time. This one's ours.</p>
+
+<button class="btn" id="afterVideo" onclick="go(5)">Continue →</button>
+
+</div>
+
+</section>
+
+<section class="screen" id="s5">
+
+<div class="panel">
+
+<div class="eyebrow">honest review only</div>
+
+<h2>Did you like the edit?</h2>
+
+<p>And how much would you rate it?</p>
+
+<div class="rating-num" id="ratingNum">10</div>
+
+<input class="rating" id="rating" type="range" min="1" max="10" value="10" oninput="rate(this.value)">
+
+<div class="reaction" id="reaction">I knew you'd love it 🥹</div>
+
+<button class="btn" onclick="go(6)">Lock in my rating ♡</button>
+
+</div>
+
+</section>
+
+<section class="screen" id="s6">
+
+<div class="panel">
+
+<div class="eyebrow">my favourite view</div>
+
+<h2>Do you wanna see my favourite view?</h2>
+
+<p class="script">A little gallery, made with love.</p>
+
+<div class="btns">
+
+<button class="btn" onclick="go(7)">Yes, show me ♡</button>
+
+<button class="btn secondary" onclick="go(7)">Of course!</button>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="screen" id="s7">
+
+<div class="panel">
+
+<div class="eyebrow">the gallery of you</div>
+
+<h2>Eight little pieces of my favourite view.</h2>
+
+<p>Every picture has a place in my heart.</p>
+
+<div class="gallery" id="gallery"></div>
+
+<button class="btn" onclick="go(8)">One last surprise →</button>
+
+</div>
+
+</section>
+
+<section class="screen" id="s8">
+
+<div class="panel">
+
+<div class="eyebrow">saved the best for last</div>
+
+<h2>I have a final surprise for you…</h2>
+
+<p class="script">Ready, birthday girl?</p>
+
+<button class="btn" onclick="go(9)">Let's go ✨</button>
+
+</div>
+
+</section>
+
+<section class="screen celebrate" id="s9">
+
+<div class="panel">
+
+<div class="eyebrow">your little birthday room</div>
+
+<h2 id="partyTitle">Let's make it magical.</h2>
+
+<p id="partyText">Follow the little steps and make a wish.</p>
+
+<div class="btns" id="partyButtons">
+
+<button class="btn" onclick="lights()">Lights off</button>
+
+<button class="btn soft" onclick="music()">Play music ♫</button>
+
+<button class="btn soft" onclick="decorate()">Let's decorate</button>
+
+<button class="btn" onclick="showCake()">Cut the cake 🎂</button>
+
+</div>
+
+<div class="birthday-banner" id="banner">Happy Birthday, Ayesha ♡</div>
+
+<div class="cake-area" id="cakeArea">
+
+<div class="cake" id="cake">
+
+<div class="candle"><div class="flame" id="flame"></div></div>
+
+</div>
+
+<div class="cake-cut" id="cakeCut"></div>
+
+<div class="knife" id="knife" aria-label="Drag knife over the cake" title="Drag me over the cake">🔪</div>
+
+</div>
+
+<p id="cakeHint" style="display:none">Drag the little knife across the cake to cut it. Make a wish, cutu! ♡</p>
+
+<audio id="birthdaySong" src="birthday-song.mp3" preload="none" loop></audio>
+
+<div class="btns">
+
+<button class="btn secondary" onclick="restart()">Replay from the beginning ↺</button>
+
+</div>
+
+</div>
+
+</section>
+
+<script>
+
+const total=9;
+
+function go(n){
+
+document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+
+document.getElementById('s'+n).classList.add('active');
+
+document.getElementById('progress').textContent=`A LITTLE SURPRISE · ${String(n).padStart(2,'0')} / 09`;
+
+window.scrollTo(0,0);
+
+}
+
+const stars=document.getElementById('stars');
+
+for(let i=0;i<95;i++){
+
+let e=document.createElement('i');
+
+e.className='star';
+
+e.style.left=Math.random()*100+'%';
+
+e.style.top=Math.random()*100+'%';
+
+e.style.setProperty('--d',(1.2+Math.random()*3.8)+'s');
+
+e.style.animationDelay=(-Math.random()*4)+'s';
+
+stars.appendChild(e);
+
+}
+
+setTimeout(()=>{
+
+document.querySelector('#s1 h1').style.display='none';
+
+let p=document.getElementById('introNote');
+
+let b=document.getElementById('introNext');
+
+p.style.transition='opacity 1.3s';
+
+b.style.transition='opacity 1.3s';
+
+p.style.opacity=1;
+
+b.style.opacity=1;
+
+},5100);
+
+const reactions={
+
+1:'Ouch. I will have to work harder next time 😭',
+
+2:'At least you are being honest… 🥲',
+
+3:'I accept this, but I owe you a better one!',
+
+4:'A little room for improvement, noted 😅',
+
+5:'Half marks! I will take it ♡',
+
+6:'Okay, that makes me smile!',
+
+7:'Seven! I am counting that as a win 🥹',
+
+8:'Almost perfect — just like you!',
+
+9:'So close to a ten. I love you!',
+
+10:'I knew you would love it 🥹♡'
+
+};
+
+function rate(v){
+
+document.getElementById('ratingNum').textContent=v;
+
+document.getElementById('reaction').textContent=reactions[v];
+
+}
+
+function playEdit(){
+
+go(4);
+
+let v=document.getElementById('editVideo');
+
+v.style.display='block';
+
+document.getElementById('videoFallback').style.display='none';
+
+v.play().catch(()=>{});
+
+v.onended=()=>go(5);
+
+}
+
+// Photos are stored directly in the repository root.
+
+const gallery=document.getElementById('gallery');
+
+for(let i=1;i<=8;i++){
+
+let d=document.createElement('div');
+
+d.className='photo';
+
+let img=document.createElement('img');
+
+img.src=`photo${i}.jpg`;
+
+img.alt=`Ayesha memory ${i}`;
+
+img.onerror=()=>{
+
+d.classList.add('missing');
+
+d.textContent=`Could not load photo${i}.jpg ♡`;
+
+};
+
+d.appendChild(img);
+
+gallery.appendChild(d);
+
+}
+
+function lights(){
+
+document.getElementById('s9').classList.toggle('dark');
+
+document.getElementById('partyText').textContent=
+
+document.getElementById('s9').classList.contains('dark')
+
+?'A little darker… now let the magic begin. ✨'
+
+:'The lights are back on!';
+
+}
+
+function music(){
+
+let a=document.getElementById('birthdaySong');
+
+a.play().then(()=>{
+
+document.getElementById('partyText').textContent='A song for you, birthday girl. ♫';
+
+}).catch(()=>{
+
+document.getElementById('partyText').textContent='Tap Play music again and check your device volume. ♡';
+
+});
+
+}
+
+function decorate(){
+
+document.getElementById('banner').style.display='block';
+
+confetti();
+
+document.getElementById('partyText').textContent='A whole birthday banner, just for you! ♡';
+
+}
+
+function showCake(){
+
+document.getElementById('cakeArea').style.display='block';
+
+document.getElementById('cakeHint').style.display='block';
+
+document.getElementById('partyText').textContent='The cake is all yours. Drag the knife across it!';
+
+}
+
+function confetti(){
+
+let c=document.getElementById('confetti');
+
+for(let i=0;i<70;i++){
+
+let e=document.createElement('i');
+
+e.style.left=Math.random()*100+'%';
+
+e.style.animationDelay=Math.random()*1.2+'s';
+
+e.style.background=['#d9b982','#d99da0','#f4d9c8','#b8c5ae','#c6b4d4'][i%5];
+
+c.appendChild(e);
+
+setTimeout(()=>e.remove(),5000);
+
+}
+
+}
+
+const knife=document.getElementById('knife');
+
+const cake=document.getElementById('cake');
+
+let dragging=false;
+
+knife.addEventListener('pointerdown',e=>{
+
+dragging=true;
+
+knife.setPointerCapture(e.pointerId);
+
+});
+
+knife.addEventListener('pointermove',e=>{
+
+if(!dragging)return;
+
+let r=document.getElementById('cakeArea').getBoundingClientRect();
+
+let x=e.clientX-r.left;
+
+let y=e.clientY-r.top;
+
+knife.style.left=Math.max(0,Math.min(r.width-55,x-15))+'px';
+
+knife.style.top=Math.max(0,Math.min(r.height-55,y-15))+'px';
+
+knife.style.right='auto';
+
+let cr=cake.getBoundingClientRect();
+
+if(e.clientX>cr.left&&e.clientX<cr.right&&e.clientY>cr.top&&e.clientY<cr.bottom){
+
+document.getElementById('cakeCut').style.display='block';
+
+document.getElementById('flame').style.display='none';
+
+document.getElementById('partyText').textContent='You did it! Happy birthday, Ayesha. Make the biggest wish. ♡';
+
+confetti();
+
+dragging=false;
+
+knife.style.display='none';
+
+}
+
+});
+
+knife.addEventListener('pointerup',()=>dragging=false);
+
+function restart(){
+
+document.getElementById('s9').classList.remove('dark');
+
+document.getElementById('cakeCut').style.display='none';
+
+document.getElementById('knife').style.display='block';
+
+document.getElementById('knife').style.left='auto';
+
+document.getElementById('knife').style.right='12px';
+
+document.getElementById('knife').style.top='22px';
+
+document.getElementById('cakeArea').style.display='none';
+
+document.getElementById('banner').style.display='none';
+
+go(1);
+
+}
+
+</script>
+
+</body>
+
+</html>
